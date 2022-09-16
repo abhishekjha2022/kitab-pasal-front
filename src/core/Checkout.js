@@ -14,7 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
-    loading: false,
+    loading: true,
     success: false,
     clientToken: null,
     error: "",
@@ -107,7 +107,6 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
               .then((response) => {
                 emptyCart(() => {
                   console.log("payment success and empty cart");
-                  <Redirect to="/" />;
                   setData({
                     loading: false,
                     success: true,
@@ -153,8 +152,12 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
-          <button onClick={buy} className="btn btn-success btn-block">
-            Pay
+          <button
+            onClick={buy}
+            className="btn btn-success btn-block"
+            disabled={!data.success ? false : true}
+          >
+            {!data.success ? "Pay" : "Already Paid"}
           </button>
         </div>
       ) : null}
